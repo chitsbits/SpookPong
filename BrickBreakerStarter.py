@@ -23,12 +23,21 @@ outline = 0
 #---------------------------------------#
 # functions                             #
 #---------------------------------------#
+# Needed                                #
+# 	-
+# 	-
+# 	-
+# 	-
+# 	-
+#---------------------------------------#
 def redrawGameWindow():
     gameWindow.fill(BLACK)
     pygame.draw.circle(gameWindow, WHITE, (ballX, ballY), ballR, outline)
     pygame.draw.rect(gameWindow, GREEN, (paddleX, paddleY, paddleW, paddleH), outline)
     pygame.draw.rect(gameWindow, BLUE, (brickX, brickY, brickW, brickH), outline)
     pygame.display.update()
+    
+def
         
 #---------------------------------------#
 # main program                          #
