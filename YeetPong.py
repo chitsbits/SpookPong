@@ -55,4 +55,53 @@ paddle1Y = (BOTTOM/2) - (paddleH/2)
 paddle2X = LEFT + 20
 paddle2Y = (BOTTOM/2) - (paddleH/2)
 
-redrawGameWindow()
+inPlay = True
+while inPlay:
+    redrawGameWindow()
+    pygame.time.delay(8)
+
+    # control inputs
+    pygame.event.clear()
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_ESCAPE]:
+        inPlay = False
+    if keys[pygame.K_a]:
+        paddle2Y = paddle2Y - paddleShift
+    if keys[pygame.K_d]:
+        paddle2Y = paddle2Y + paddleShift
+    if keys[pygame.K_LEFT]:
+        paddle1Y = paddle1Y - paddleShift
+    if keys[pygame.K_RIGHT]:
+        paddle1Y = paddle1Y + paddleShift
+
+    # prevent paddles from going off-screen
+    if paddle1Y <= 0:
+        paddle1Y = 0
+    if paddle1Y >= BOTTOM - paddleH:
+        paddle1Y = BOTTOM - paddleH
+
+    if paddle2Y <= 0:
+        paddle2Y = 0
+    if paddle2Y >= BOTTOM - paddleH:
+        paddle2Y = BOTTOM - paddleH
+
+    # bounce from walls
+    if ballY + ballR == BOTTOM:
+        speedY = -speedY
+    if ballY - ballR == TOP:
+        speedY = -speedY
+
+    # bounce from paddles
+    # paddle 1
+    if ballY >= paddle1Y and ballY <= paddle1Y + paddleH and ballX + ballR == paddle1X:
+        speedX = -speedX
+    # paddle 2
+    if ballY >= paddle2Y and ballY <= paddle2Y + paddleH and ballX - ballR == paddle2X + paddleW:
+        speedX = -speedX
+    # move the ball
+    ballX = ballX + speedX
+    ballY = ballY + speedY 
+    
+        
+
+pygame.quit()
