@@ -1,0 +1,18 @@
+Brickbreaker pseudocode by mr.g:
+
+declare all needed constants and variables
+assign initial values
+repeat while there are bricks and game is not over
+  draw bricks that are not "broken"
+  draw the ball and the paddle
+  update the game window (animation)
+  check for key input and move the paddle if required
+  check whether the ball has collided with a brick
+    if so, "break" that brick and bounce the ball
+  check whether the ball has hit left/right/top border of the screen
+    if so, bounce the ball
+  check whether the ball has collided with the paddle
+    if so, bounce the ball
+  check whether the ball has left the screen from the bottom
+    if so, the game is over
+  move the ball
