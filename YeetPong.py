@@ -4,10 +4,12 @@
 # Author: ICS2O
 # Date: 08/11/2017
 #########################################
+
+#####
 import pygame
 pygame.init()
-WIDTH = 1920
-HEIGHT= 1080
+WIDTH = 800
+HEIGHT= 600
 gameWindow=pygame.display.set_mode((WIDTH,HEIGHT))
 
 TOP    = 0  
@@ -19,13 +21,13 @@ BLUE  = (  0,  0,128)
 WHITE = (255,255,255)
 BLACK = (  0,  0,  0)
 outline = 0
-
+timeDelay = 6
+flagY = False
 #---------------------------------------#
 # functions                             #
 #---------------------------------------#
 def redrawGameWindow():
     gameWindow.fill(BLACK)
-    pygame.draw.
     pygame.draw.circle(gameWindow, WHITE, (ballX, ballY), ballR, outline)
     pygame.draw.rect(gameWindow, WHITE, (paddle1X, paddle1Y, paddleW, paddleH), outline)
     pygame.draw.rect(gameWindow, WHITE, (paddle2X, paddle2Y, paddleW, paddleH), outline)
@@ -60,10 +62,11 @@ paddle1Y = (BOTTOM/2) - (paddleH/2)
 paddle2X = LEFT + 20
 paddle2Y = (BOTTOM/2) - (paddleH/2)
 
+#####
 inPlay = True
 while inPlay:
     redrawGameWindow()
-    pygame.time.delay(2)
+    pygame.time.delay(timeDelay)
 
     # control inputs
     pygame.event.clear()
@@ -96,35 +99,50 @@ while inPlay:
     if ballY - ballR == TOP:
         speedY = -speedY
 
-    # bounce from paddles
-    # paddle 1
+    ##### bounce from paddles
+    ##### paddle 1
     if ballY >= paddle1Y and ballY <= paddle1Y + paddleH and ballX + ballR == paddle1X:
         speedX = -speedX
-
-    # increment score, reset ball (PADDLE 1)
+    if ballX >= paddle1X and ballY + ballR >= paddle1Y and ballY + ballR <= paddle1Y + 60 or ballX >= paddle1X and ballY - ballR <= paddle1Y + paddleH and ballY - ballR >= paddle1Y + paddleH - 60:
+        if flagY == False:
+            speedY = -speedY
+            flagY = True
+        if flagY == True:
+            speedY = speedY
+    ##### increment score, reset ball (PADDLE 1)
     if ballX == WIDTH:
         player2Score += 1
         print "Player 1:",player1Score,"\nPlayer 2:",player2Score
-        ballX  =  WIDTH/2
-        ballY  =  HEIGHT/2
+        ballX = WIDTH/2
+        ballY = HEIGHT/2
+        flagY = False
         pygame.time.delay(1000)
         
-    # paddle 2
+    ##### paddle 2
     if ballY >= paddle2Y and ballY <= paddle2Y + paddleH and ballX - ballR == paddle2X + paddleW:
         speedX = -speedX
-
-    # increment score, reset ball (PADDLE 2)
+    if ballX <= paddle2X + paddleW and ballY + ballR >= paddle2Y and ballY + ballR <= paddle2Y + 60 or ballX <= paddle2X + paddleW and ballY - ballR <= paddle2Y + paddleH and ballY - ballR >= paddle2Y + paddleH - 60:
+        if flagY == False:
+            speedY = -speedY
+            flagY = True
+        if flagY == True:
+            speedY = speedY
+    ##### increment score, reset ball (PADDLE 2)
     if ballX == 0:
         player1Score += 1
         print "Player 1:",player1Score,"\nPlayer 2:",player2Score
-        ballX  =  WIDTH/2
-        ballY  =  HEIGHT/2
+        ballX = WIDTH/2
+        ballY = HEIGHT/2
+        flagY = False
         pygame.time.delay(1000)
         
     # move the ball
     ballX = ballX + speedX
     ballY = ballY + speedY 
     
-        
-
-pygame.quit()
+    ##### testing keys
+    if keys[pygame.K_q]:
+        timeDelay = timeDelay + 2
+    if keys[pygame.K_e]:
+        timeDelay = timeDelay - 2
+pygame.quit() 
