@@ -6,8 +6,8 @@
 #########################################
 import pygame
 pygame.init()
-WIDTH = 800
-HEIGHT= 600
+WIDTH = 1920
+HEIGHT= 1080
 gameWindow=pygame.display.set_mode((WIDTH,HEIGHT))
 
 TOP    = 0  
@@ -25,15 +25,20 @@ outline = 0
 #---------------------------------------#
 def redrawGameWindow():
     gameWindow.fill(BLACK)
+    pygame.draw.
     pygame.draw.circle(gameWindow, WHITE, (ballX, ballY), ballR, outline)
-    pygame.draw.rect(gameWindow, GREEN, (paddle1X, paddle1Y, paddleW, paddleH), outline)
-    pygame.draw.rect(gameWindow, GREEN, (paddle2X, paddle2Y, paddleW, paddleH), outline)
+    pygame.draw.rect(gameWindow, WHITE, (paddle1X, paddle1Y, paddleW, paddleH), outline)
+    pygame.draw.rect(gameWindow, WHITE, (paddle2X, paddle2Y, paddleW, paddleH), outline)
     pygame.display.update()
-     
+
 #---------------------------------------#
 # main program                          #
 #---------------------------------------#
 print "Hit ESC to end the program."
+
+# players
+player1Score = 0 # right side
+player2Score = 0 # left side
 
 # ball properties
 ballR  = 15
@@ -58,7 +63,7 @@ paddle2Y = (BOTTOM/2) - (paddleH/2)
 inPlay = True
 while inPlay:
     redrawGameWindow()
-    pygame.time.delay(8)
+    pygame.time.delay(2)
 
     # control inputs
     pygame.event.clear()
@@ -95,9 +100,27 @@ while inPlay:
     # paddle 1
     if ballY >= paddle1Y and ballY <= paddle1Y + paddleH and ballX + ballR == paddle1X:
         speedX = -speedX
+
+    # increment score, reset ball (PADDLE 1)
+    if ballX == WIDTH:
+        player2Score += 1
+        print "Player 1:",player1Score,"\nPlayer 2:",player2Score
+        ballX  =  WIDTH/2
+        ballY  =  HEIGHT/2
+        pygame.time.delay(1000)
+        
     # paddle 2
     if ballY >= paddle2Y and ballY <= paddle2Y + paddleH and ballX - ballR == paddle2X + paddleW:
         speedX = -speedX
+
+    # increment score, reset ball (PADDLE 2)
+    if ballX == 0:
+        player1Score += 1
+        print "Player 1:",player1Score,"\nPlayer 2:",player2Score
+        ballX  =  WIDTH/2
+        ballY  =  HEIGHT/2
+        pygame.time.delay(1000)
+        
     # move the ball
     ballX = ballX + speedX
     ballY = ballY + speedY 
