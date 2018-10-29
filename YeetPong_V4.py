@@ -49,6 +49,13 @@ def redrawGameWindow():
     pygame.draw.rect(gameWindow, WHITE, (paddle1X, paddle1Y, paddleW, paddleH), outline)
     pygame.draw.rect(gameWindow, WHITE, (paddle2X, paddle2Y, paddleW, paddleH), outline)
     pygame.display.update()
+    
+def randDirection():
+    vertical=randint(0,1)
+    if vertical==0:
+        return -1
+    if vertical==1:
+        return 1
 #---------------------------------------#
 # main program                          #
 #---------------------------------------#
