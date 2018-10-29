@@ -39,11 +39,15 @@ def drawMainMenu():
 
 def redrawGameWindow():
     gameWindow.fill(BLACK)
+    pygame.draw.rect(gameWindow,GREY,(WIDTH/2-5,0,5,HEIGHT),outline)
+    p1ScoreRender = font.render(str(player1Score), 1, WHITE)
+    p2ScoreRender = font.render(str(player2Score), 1, WHITE)
+    gameWindow.blit(p1ScoreRender,((WIDTH/2 + (WIDTH/2)/2),35))
+    gameWindow.blit(p2ScoreRender,((WIDTH/2 - (WIDTH/2)/2),35))
     pygame.draw.circle(gameWindow, WHITE, (ballX, ballY), ballR, outline)
     pygame.draw.rect(gameWindow, WHITE, (paddle1X, paddle1Y, paddleW, paddleH), outline)
     pygame.draw.rect(gameWindow, WHITE, (paddle2X, paddle2Y, paddleW, paddleH), outline)
     pygame.display.update()
-
 #---------------------------------------#
 # main program                          #
 #---------------------------------------#
