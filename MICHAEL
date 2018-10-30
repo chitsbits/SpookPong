@@ -7,7 +7,7 @@
 
 #
 # V4_S
-# RANDOM VERTICAL DIRECTION, PROPER SERVING, MAIN MENU TEXT
+# CHYEET
 #
 
 import pygame
@@ -17,6 +17,7 @@ WIDTH = 800
 HEIGHT= 600
 gameWindow=pygame.display.set_mode((WIDTH,HEIGHT))
 
+#####
 TOP    = 0  
 BOTTOM = HEIGHT
 LEFT   = 0     
@@ -34,17 +35,19 @@ font = pygame.font.SysFont("Courier Regular",75)
 MAX_SCORE = 7
 mainMenu = True
 cheatAmount = 1
+cheatActivated = False
 
 #---------------------------------------#
 # functions                             #
 #---------------------------------------#
 
+#####
 def redrawGameWindow():
     gameWindow.fill(BLACK)
-    pygame.draw.rect(gameWindow,GREY,(WIDTH/2-5,0,5,HEIGHT),outline)
+    pygame.draw.rect(gameWindow,GREY,(WIDTH/2-2,0,5,HEIGHT),outline)
     p1ScoreRender = font.render(str(player1Score), 1, WHITE)
     p2ScoreRender = font.render(str(player2Score), 1, WHITE)
-    gameWindow.blit(p1ScoreRender,((WIDTH/2 + (WIDTH/2)/2),35))
+    gameWindow.blit(p1ScoreRender,((WIDTH/2 + (WIDTH/2)/2)-10,35))
     gameWindow.blit(p2ScoreRender,((WIDTH/2 - (WIDTH/2)/2),35))
     pygame.draw.circle(gameWindow, WHITE, (ballX, ballY), ballR, outline)
     pygame.draw.rect(gameWindow, WHITE, (paddle1X, paddle1Y, paddleW, paddleH), outline)
@@ -118,7 +121,6 @@ pygame.time.delay(2000)
 while inPlay:
     redrawGameWindow()
     pygame.time.delay(timeDelay)
-
     # ~~~~~~~~ USER INPUTS ~~~~~~~ #
     
     pygame.event.clear()
@@ -174,9 +176,9 @@ while inPlay:
         if flagY == True:
             speedY = speedY
 
-    #  ~~~~~~~ INCREMENT SCORE ~~~~~~~ #
+    #####  ~~~~~~~ INCREMENT SCORE ~~~~~~~ #
     
-    # PADDLE 1
+    ##### PADDLE 1
     if ballX == WIDTH:
         player2Score += 1
         print "Player 1:",player1Score,"\nPlayer 2:",player2Score
@@ -185,10 +187,12 @@ while inPlay:
         flagY = False
         speedY = randDirection()
         speedX = -speedX
+        if cheatActivated == True:
+            cheatAmount = 0
         redrawGameWindow()
         pygame.time.delay(1000)
 
-    # PADDLE 2
+    ##### PADDLE 2
     if ballX == 0:
         player1Score += 1
         print "Player 1:",player1Score,"\nPlayer 2:",player2Score
@@ -197,6 +201,8 @@ while inPlay:
         flagY = False
         speedY = randDirection()
         speedX = -speedX
+        if cheatActivated == True:
+            cheatAmount = 0
         redrawGameWindow()
         pygame.time.delay(1000)
 
@@ -205,23 +211,25 @@ while inPlay:
     ballX = ballX + speedX
     ballY = ballY + speedY 
     
-    ##### testing keys
+    # ~~~~~~~ testing keys ~~~~~~~ #
     if keys[pygame.K_q]:
         timeDelay = timeDelay + 2
     if keys[pygame.K_e]:
         timeDelay = timeDelay - 2
 
-    # ~~~~~~~ CHEAT ~~~~~~~#
-    if ballR < WIDTH/2:
+    ##### ~~~~~~~ CHEAT ~~~~~~~#
+
+    if ballX < WIDTH/5:
         ballEnemySide = True
-    if ballR > WIDTH/2:
+    elif ballX > WIDTH/5:
         ballEnemySide = False
+    
     if keys[pygame.K_KP_ENTER]:
+        cheatActivated = True
+    if cheatActivated == True:
         if cheatAmount == 1:
-            if ballEnemySide == True:
+            if ballEnemySide:
                 cheatColor = WHITE
-            if ballEnemySide == False:
+            elif not ballEnemySide:
                 cheatColor = BLACK
-        else:
-            cheatOn = False
 pygame.quit()
