@@ -44,6 +44,9 @@ ballWaitOn = True
 cheatAmount = 1
 cheatActivated = False
 
+pygame.mixer.music.load("spookmusic.ogg")
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1)
 #---------------------------------------#
 # Functions                             #
 #---------------------------------------#
